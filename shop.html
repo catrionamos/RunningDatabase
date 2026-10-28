@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Running Database - Shop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Running Database</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('shop') }}">Shop</a>
+            {% if current_user.is_anonymous %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </nav>
+    </header>
+    <div class="container">
+        <h2>Running Gear Store</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <h3>Pro Trail Running Shoes</h3>
+                <p>Category: Footwear</p>
+                <p class="price">€129.99</p>
+                <button class="btn">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <h3>GPS Fitness Watch</h3>
+                <p>Category: Electronics</p>
+                <p class="price">€199.99</p>
+                <button class="btn">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <h3>Hydration Running Vest</h3>
+                <p>Category: Accessories</p>
+                <p class="price">€49.99</p>
+                <button class="btn">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
