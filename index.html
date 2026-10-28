@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Running Database - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Running Database</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('shop') }}">Shop</a>
+            {% if current_user.is_anonymous %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Welcome to Running Database</h2>
+        <p>Track your running performance, monitor weekly goals, and browse official training gear.</p>
+        
+        <div style="margin: 20px 0;">
+            <a href="{{ url_for('shop') }}" class="btn">Explore Shop</a>
+        </div>
+
+        <div class="product-grid" style="margin-top: 30px;">
+            <div class="product-card">
+                <h3>Track Activity</h3>
+                <p>Log distance, duration, and pace seamless via your runner account.</p>
+            </div>
+            <div class="product-card">
+                <h3>Set Goals</h3>
+                <p>Monitor weekly volume targets with real-time performance indicators.</p>
+            </div>
+            <div class="product-card">
+                <h3>Gear Store</h3>
+                <p>Check out our catalog of tested footwear, gear vests, and fitness wearables.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

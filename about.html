@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Running Database - About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Running Database</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('shop') }}">Shop</a>
+            {% if current_user.is_anonymous %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>About Running Database</h2>
+        <p>Running Database is a web application designed to help runners log workout metrics, track training milestones, and explore recommended performance gear.</p>
+        
+        <div class="product-grid" style="margin-top: 30px;">
+            <div class="product-card">
+                <h3>Our Mission</h3>
+                <p>To provide athletes with a lightweight platform to record performance stats and manage training programs.</p>
+            </div>
+            <div class="product-card">
+                <h3>Built for Runners</h3>
+                <p>Designed with intuitive navigation and clear analytics to keep your focus on hitting your next PR.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
