@@ -1,0 +1,41 @@
+RUNNING DATABASE WEB APPLICATION
+Business Information Systems - Submission 3
+
+Student Name: Catriona O'Sullivan
+Repository: https://github.com/catrionamos/RunningDatabase
+
+1. OVERVIEW
+--------------------------------------------------
+Running Database is a Flask web application integrated with a local PostgreSQL 18 database. It enables users to view running training programs, track workout activity, and browse performance gear.
+
+2. VERSION CONTROL & BRANCH STRUCTURE
+--------------------------------------------------
+- main: Primary production branch containing finalized application code, models, schema, and database automation scripts.
+- RunningDatabase-edits1 / feature/database-view: Feature development branch for database-driven views and queries.
+- RunningDatabase-edits2 / feature/data-entry: Feature development branch for data entry routes and form processing.
+
+3. TECH STACK & REQUIREMENTS
+--------------------------------------------------
+- Python 3.12
+- Flask & Flask-SQLAlchemy
+- PostgreSQL 18
+- Flask-Login & Werkzeug Security
+- Dependencies listed in requirements.txt
+
+4. DATABASE SETUP & EXECUTION
+--------------------------------------------------
+1. Ensure local PostgreSQL server is running on port 5432 with database 'running_db'.
+2. Open terminal and activate virtual environment:
+   venv\Scripts\activate
+
+3. Initialize the database tables:
+   python initialise_db.py
+
+4. Seed the database with sample data (20+ rows per table):
+   python populate_db.py
+
+5. Run the web application:
+   flask run
+
+6. Access application in browser at:
+   http://127.0.0.1:5000/
