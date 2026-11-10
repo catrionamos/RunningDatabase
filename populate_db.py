@@ -1,53 +1,57 @@
-from app import app, db
-from app.models import User, Program, Run, Product, Order
-from datetime import date
+import psycopg2
+import csv
+from werkzeug.security import generate_password_hash
 
-def seed_database():
-    with app.app_context():
-        print("Clearing existing data...")
-        db.drop_all()
-        db.create_all()
+conn = psycopg2.connect(database="running_db", user="postgres", password="Phoebe2004", host="localhost", port="5432")
 
-        print("Seeding Programs (20 rows)...")
-        programs = [
-            Program(program_name="Couch to 5K", target_level="Beginner", duration_weeks=8, description="Gradual program for new runners."),
-            Program(program_name="5K Speed Builder", target_level="Intermediate", duration_weeks=6, description="Improve your 5k personal record."),
-            Program(program_name="10K Foundation", target_level="Beginner", duration_weeks=10, description="Step up from 5k to 10k."),
-            Program(program_name="10K Performance", target_level="Intermediate", duration_weeks=8, description="Optimize pace for 10k races."),
-            Program(program_name="Half Marathon Intro", target_level="Intermediate", duration_weeks=12, description="Prepare for your first 21k."),
-            Program(program_name="Half Marathon Endurance", target_level="Advanced", duration_weeks=12, description="Build sustained half marathon pace."),
-            Program(program_name="Marathon Base Builder", target_level="Intermediate", duration_weeks=16, description="High mileage base building for marathon."),
-            Program(program_name="Marathon Mastery", target_level="Advanced", duration_weeks=18, description="Comprehensive 42k marathon preparation."),
-            Program(program_name="Ultra Endurance 50K", target_level="Advanced", duration_weeks=20, description="Introductory trail ultra marathon plan."),
-            Program(program_name="Heart Rate Zone Training", target_level="All Levels", duration_weeks=6, description="Aerobic engine development."),
-            Program(program_name="Interval & Hill Repeats", target_level="Intermediate", duration_weeks=4, description="Power and VO2 max improvement."),
-            Program(program_name="Recovery & Mobility Run", target_level="All Levels", duration_weeks=4, description="Active recovery routine for runners."),
-            Program(program_name="Trail Running Essentials", target_level="Beginner", duration_weeks=6, description="Technique and endurance for off-road."),
-            Program(program_name="5km Sub-20 Challenge", target_level="Advanced", duration_weeks=8, description="Targeted track workouts for sub-20min 5k."),
-            Program(program_name="10km Sub-45 Challenge", target_level="Advanced", duration_weeks=8, description="Pace-focused training for sub-45min 10k."),
-            Program(program_name="Post-Injury Return to Run", target_level="Beginner", duration_weeks=6, description="Low impact return-to-running plan."),
-            Program(program_name="Weight Loss Aerobic Plan", target_level="Beginner", duration_weeks=10, description="Fat burning zone running schedules."),
-            Program(program_name="Senior Runner Fitness", target_level="Beginner", duration_weeks=8, description="Gentle joint-friendly running routines."),
-            Program(program_name="Sprint & Agility Prep", target_level="Intermediate", duration_weeks=4, description="Short burst speed work."),
-            Program(program_name="Winter Base Maintenance", target_level="All Levels", duration_weeks=8, description="Maintain aerobic fitness off-season.")
-        ]
-        db.session.add_all(programs)
+cur = conn.cursor()
 
-        print("Seeding Sample Users...")
-        user1 = User(username="Catriona", email="catriona@example.com", password_hash="hashed_pw_1", fitness_level="Intermediate", running_goal="Sub-20 5K", program_id=2)
-        user2 = User(username="JohnRunner", email="john@example.com", password_hash="hashed_pw_2", fitness_level="Beginner", running_goal="Complete 5K", program_id=1)
-        db.session.add_all([user1, user2])
+path = './data/'
 
-        print("Seeding Sample Products...")
-        products = [
-            Product(product_name="Pro Trail Shoes", category="Footwear", price=129.99, stock_quantity=15),
-            Product(product_name="GPS Fitness Watch", category="Electronics", price=199.99, stock_quantity=10),
-            Product(product_name="Hydration Vest", category="Accessories", price=49.99, stock_quantity=25)
-        ]
-        db.session.add_all(products)
+csv_file_programs = path+'programs.csv'
+with open(csv_file_programs, newline='') as csvfile:
+    dataReader = csv.reader(csvfile, delimiter=',')
+    for row in dataReader:
+        sql = "insert into programs(program_id, program_name, target_level, duration_weeks, description) values('"+row[0]+"','"+row[1]+"','"+row[2]+"',"+row[3]+",'"+row[4]+"');"
+        cur.execute(sql)
+    csvfile.close()
 
-        db.session.commit()
-        print("Database populated successfully with 20+ records!")
+csv_file_users = path+'userDetails.csv'
+with open(csv_file_users, newline='') as csvfile:
+    dataReader = csv.reader(csvfile, delimiter=',')
+    for row in dataReader:
+        sql = "insert into users(userid, password, email, fitness_level, running_goal, program_id) values('"+row[0]+"','"+generate_password_hash(row[1])+"','"+row[2]+"','"+row[3]+"','"+row[4]+"','"+row[5]+"');"
+        cur.execute(sql)
+    csvfile.close()
 
-if __name__ == "__main__":
-    seed_database()
+csv_file_products = path+'products.csv'
+with open(csv_file_products, newline='') as csvfile:
+    dataReader = csv.reader(csvfile, delimiter=',')
+    for row in dataReader:
+        sql = "insert into products(product_id, product_name, category, price, stock_quantity) values('"+row[0]+"','"+row[1]+"','"+row[2]+"',"+row[3]+","+row[4]+");"
+        cur.execute(sql)
+    csvfile.close()
+
+csv_file_runs = path+'runs.csv'
+with open(csv_file_runs, newline='') as csvfile:
+    dataReader = csv.reader(csvfile, delimiter=',')
+    for row in dataReader:
+        sql = "insert into runs(userid, run_date, distance_km, duration_minutes, notes) values('"+row[0]+"','"+row[1]+"',"+row[2]+","+row[3]+",'"+row[4]+"');"
+        cur.execute(sql)
+    csvfile.close()
+
+csv_file_orders = path+'orders.csv'
+with open(csv_file_orders, newline='') as csvfile:
+    dataReader = csv.reader(csvfile, delimiter=',')
+    for row in dataReader:
+        sql = "insert into orders(order_id, userid, product_id, quantity, order_date) values('"+row[0]+"','"+row[1]+"','"+row[2]+"',"+row[3]+",'"+row[4]+"');"
+        cur.execute(sql)
+    csvfile.close()
+
+print("Database populated with programs, users, products, runs and orders.")
+
+conn.commit()
+
+cur.close()
+
+conn.close()
