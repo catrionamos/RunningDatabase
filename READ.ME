@@ -1,0 +1,66 @@
+==================================================
+RUNNING DATABASE WEB APPLICATION
+INFO8021 DevOps Strategy and Automation - Submission 3
+==================================================
+
+Student Name: Catriona O'Sullivan
+Repository: https://github.com/catrionamos/RunningDatabase
+
+--------------------------------------------------
+1. OVERVIEW
+--------------------------------------------------
+Running Database is a Flask web application connected to a PostgreSQL
+database. Users can find a running program that suits their starting
+fitness and goals, log in to record their recent runs, and browse a
+shop with running gear.
+
+--------------------------------------------------
+2. BRANCHES
+--------------------------------------------------
+main                    Initial website - Home and About pages only
+                        (no functionality), plus database scripts.
+RunningDatabase-edits1  Feature 1: Find a Program and Shop. Reads the
+                        programs and products tables from the database.
+RunningDatabase-edits2  Feature 2: Login and Log a Run. Checks the
+                        hashed password in the users table and inserts
+                        new runs into the runs table.
+
+The side branches are not merged into main.
+
+--------------------------------------------------
+3. TECH STACK
+--------------------------------------------------
+- Python 3.12 / Flask 3.1
+- Flask-WTF (web forms)
+- PostgreSQL 18 with psycopg2
+- Werkzeug (password hashing)
+- Notepad++, GitHub
+- Package versions are listed in requirements.txt
+
+--------------------------------------------------
+4. DATABASE
+--------------------------------------------------
+Database name: running_db
+Tables: programs (main table, 20 rows), users, products, runs, orders
+schema.sql       SQL code to create the tables and relationships
+initialise_db.py Creates the running_db database and the tables
+populate_db.py   Reads the csv files in the data folder and inserts
+                 them into the tables (passwords are hashed)
+
+--------------------------------------------------
+5. HOW TO RUN
+--------------------------------------------------
+1. Make sure PostgreSQL is running on localhost port 5432.
+2. Activate the virtual environment:
+   venv\Scripts\activate
+3. Install the packages:
+   pip install -r requirements.txt
+4. Create the database and tables:
+   python initialise_db.py
+5. Fill the tables with data:
+   python populate_db.py
+6. Start the web application:
+   python run.py
+7. Open http://127.0.0.1:5000/ in a browser.
+
+Test login - Username: CatrionaRuns  Password: Running2026
