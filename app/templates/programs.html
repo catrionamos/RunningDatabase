@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Find a Running Program</h2>
+<p>Choose your fitness level to see the programs that suit you.</p>
+
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.level.label }}<br>
+        {{ form.level() }}
+        {{ form.submit() }}
+    </p>
+</form>
+
+<table>
+    <tr>
+        <th>Program</th>
+        <th>Level</th>
+        <th>Weeks</th>
+        <th>Description</th>
+    </tr>
+    {% for program in programs %}
+    <tr>
+        <td>{{ program[0] }}</td>
+        <td>{{ program[1] }}</td>
+        <td>{{ program[2] }}</td>
+        <td>{{ program[3] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p>{{ programs|length }} programs found.</p>
+{% endblock %}
