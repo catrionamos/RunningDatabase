@@ -1,43 +1,45 @@
-CREATE TABLE IF NOT EXISTS programs (
-    program_id SERIAL PRIMARY KEY,
-    program_name VARCHAR(100) NOT NULL,
-    target_level VARCHAR(50),
-    duration_weeks INT,
-    description TEXT
+create table if not exists programs(
+program_id varchar(10) not null primary key,
+program_name varchar(100) not null,
+target_level varchar(30),
+duration_weeks int,
+description varchar(255)
 );
 
-CREATE TABLE IF NOT EXISTS users (
-    user_id SERIAL PRIMARY KEY,
-    username VARCHAR(80) UNIQUE NOT NULL,
-    email VARCHAR(120) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    fitness_level VARCHAR(50),
-    running_goal VARCHAR(100),
-    program_id INT REFERENCES programs(program_id)
+create table if not exists users(
+userid varchar(50) not null primary key,
+password varchar(200) not null,
+email varchar(120),
+fitness_level varchar(30),
+running_goal varchar(100),
+program_id varchar(10),
+foreign key (program_id) references programs(program_id)
 );
 
-CREATE TABLE IF NOT EXISTS runs (
-    run_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id),
-    run_date DATE NOT NULL,
-    distance_km FLOAT NOT NULL,
-    duration_minutes INT NOT NULL,
-    notes TEXT
+create table if not exists products(
+product_id varchar(10) not null primary key,
+product_name varchar(100) not null,
+category varchar(50),
+price float,
+stock_quantity int
 );
 
-CREATE TABLE IF NOT EXISTS products (
-    product_id SERIAL PRIMARY KEY,
-    product_name VARCHAR(100) NOT NULL,
-    category VARCHAR(50),
-    price FLOAT NOT NULL,
-    stock_quantity INT DEFAULT 0
+create table if not exists runs(
+run_id serial primary key,
+userid varchar(50) not null,
+run_date date,
+distance_km float,
+duration_minutes int,
+notes varchar(255),
+foreign key (userid) references users(userid)
 );
 
-CREATE TABLE IF NOT EXISTS orders (
-    order_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id),
-    product_id INT REFERENCES products(product_id),
-    quantity INT NOT NULL,
-    total_amount FLOAT NOT NULL,
-    order_date DATE DEFAULT CURRENT_DATE
+create table if not exists orders(
+order_id varchar(10) not null primary key,
+userid varchar(50) not null,
+product_id varchar(10) not null,
+quantity int,
+order_date date,
+foreign key (userid) references users(userid),
+foreign key (product_id) references products(product_id)
 );
