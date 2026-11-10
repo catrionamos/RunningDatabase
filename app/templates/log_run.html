@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Log a Run</h2>
+<p>Logged in as <b>{{ session['user_id'] }}</b></p>
+
+<div class="form-card">
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.run_date.label }}<br>
+        {{ form.run_date() }}
+        {% for error in form.run_date.errors %}
+        <br><span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.distance_km.label }}<br>
+        {{ form.distance_km(size=10) }}
+        {% for error in form.distance_km.errors %}
+        <br><span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.duration_minutes.label }}<br>
+        {{ form.duration_minutes(size=10) }}
+        {% for error in form.duration_minutes.errors %}
+        <br><span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.notes.label }}<br>
+        {{ form.notes(size=32) }}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+</div>
+
+<h2>My Runs</h2>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Distance (km)</th>
+        <th>Time (mins)</th>
+        <th>Notes</th>
+    </tr>
+    {% for run in runs %}
+    <tr>
+        <td>{{ run[0] }}</td>
+        <td>{{ run[1] }}</td>
+        <td>{{ run[2] }}</td>
+        <td>{{ run[3] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
