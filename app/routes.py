@@ -17,7 +17,7 @@ def about():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        username = form.username.data
+        username = form.username.data.replace("'", "''")
         password = form.password.data
         conn = db_connect()
         cur = conn.cursor()
@@ -44,7 +44,7 @@ def log_run():
     conn = db_connect()
     cur = conn.cursor()
     if form.validate_on_submit():
-        sql = "insert into runs(userid, run_date, distance_km, duration_minutes, notes) values('"+username+"','"+str(form.run_date.data)+"',"+str(form.distance_km.data)+","+str(form.duration_minutes.data)+",'"+form.notes.data+"');"
+        sql = "insert into runs(userid, run_date, distance_km, duration_minutes, notes) values('"+username+"','"+str(form.run_date.data)+"',"+str(form.distance_km.data)+","+str(form.duration_minutes.data)+",'"+form.notes.data.replace("'", "''")+"');"
         cur.execute(sql)
         conn.commit()
         cur.close()
