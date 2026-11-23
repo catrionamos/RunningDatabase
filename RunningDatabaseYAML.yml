@@ -1,20 +1,24 @@
 ---
 Database Specs:
-    Name: PostgreSQL 
-    Version: 18.6 
-    Server: localhost 
-    Database: running_db 
-    Port: 5432 
-    Username: postgres 
-    Password: postgres_password 
+    Name: PostgreSQL
+    Version: 18.6
+    Server: localhost
+    Database: running_db
+    Port: 5432
+    Username: postgres
     Prompt: running_db=#
 Web Development Specs:
-    Language/Framework: Python (v3.12) / Flask (v3.1.0) 
-    Editor: Notepad++ 
-    Modules/Packages: Flask, Flask-SQLAlchemy, psycopg2-binary, Flask-WTF, Flask-Login
-Containerisation Specs: 
-    Tool: Docker & Docker Compose (v2.x) 
+    Language/Framework: Python (v3.12) / Flask (v3.1.3)
+    Editor: Notepad++
+    Modules/Packages: Flask, Flask-WTF, WTForms, psycopg2-binary, Werkzeug
+Testing Specs:
+    Tool: pytest (v9.1) / pytest-flask (v1.3)
+    Folder: tests
+Containerisation Specs:
+    Tool: Docker & Docker Compose (v2.x)
+    Files: Dockerfile, docker-compose.yml, .env
 Pipeline Specs:
-    Tool: Git / GitHub Actions 
+    Tool: Git / GitHub Actions
+    File: .github/workflows/pipeline.yml
     Format: YAML (Notepad++)
 ...

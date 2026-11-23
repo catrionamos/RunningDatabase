@@ -1,0 +1,47 @@
+RunningDatabase/
+|
+|-- .github/
+|   |-- workflows/
+|       |-- pipeline.yml     GitHub Actions pipeline that runs the tests
+|
+|-- app/
+|   |-- __init__.py          creates the Flask app and loads config.py
+|   |-- routes.py            web pages and database queries (psycopg2)
+|   |-- forms.py             LoginForm, ProgramSearchForm, LogRunForm
+|   |-- static/
+|   |   |-- css/
+|   |       |-- style.css    stylesheet for the whole site
+|   |-- templates/
+|       |-- base.html        navigation bar + flash messages
+|       |-- index.html       Home page
+|       |-- about.html       About Us page
+|       |-- programs.html    Feature 1 - Find a Program
+|       |-- shop.html        Feature 2 - Running gear shop
+|       |-- login.html       Feature 3 - Sign in
+|       |-- log_run.html     Feature 4 - Log a Run + My Runs
+|
+|-- data/
+|   |-- programs.csv
+|   |-- userDetails.csv
+|   |-- products.csv
+|   |-- runs.csv
+|   |-- orders.csv
+|   |-- init.sql             creates and fills the tables in the Docker database
+|
+|-- tests/
+|   |-- __init__.py
+|   |-- conftest.py          test app, test client and mock database
+|   |-- test_routes.py       one test for each route
+|
+|-- .env                     Docker database user and password (not on GitHub)
+|-- .gitignore               files kept off GitHub
+|-- config.py                SECRET_KEY setting
+|-- docker-compose.yml       web and database containers
+|-- Dockerfile               builds the web container
+|-- initialise_db.py         creates running_db and the tables
+|-- populate_db.py           inserts the csv data into the tables
+|-- README.md                project information
+|-- requirements.txt         packages and versions
+|-- run.py                   starts the web application
+|-- RunningDatabaseYAML.yml  project specs
+|-- schema.sql               SQL to create tables and relationships
