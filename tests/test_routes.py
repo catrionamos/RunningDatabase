@@ -1,23 +1,21 @@
-#import necessary packages for testing purposes
 import pytest
 from werkzeug.security import generate_password_hash
 
-#test method for the index page
+#home page loads
 def test_index_page(client):
     response = client.get('/')
     assert response.status_code == 200
     assert b"Welcome to Running Database" in response.data
     assert b"Find a Program" in response.data
 
-#test method for the about page
+#about page loads
 def test_about_page(client):
     response = client.get('/about')
     assert response.status_code == 200
     assert b"About Running Database" in response.data
 
-#test method for loading the programs page with every program
+#programs page lists every program
 def test_programs_page(client, mock_db):
-    #simulate the database returning two programs
     mock_db.fetchall.return_value = [("Couch to 5K","Beginner",9,"Walk run plan"),("Half Marathon Plan","Intermediate",12,"Build up to 21km")]
 
     response = client.get("/programs")
@@ -26,7 +24,7 @@ def test_programs_page(client, mock_db):
     assert b"Half Marathon Plan" in response.data
     assert b"2 programs found." in response.data
 
-#test method for checking the programs page filters by fitness level
+#programs page filters by fitness level
 def test_programs_filter(client, mock_db):
     mock_db.fetchall.return_value = [("Couch to 5K","Beginner",9,"Walk run plan")]
 
@@ -37,7 +35,7 @@ def test_programs_filter(client, mock_db):
     sql = mock_db.execute.call_args[0][0]
     assert "where target_level ='Beginner'" in sql
 
-#test method for the shop page
+#shop page shows the products
 def test_shop_page(client, mock_db):
     mock_db.fetchall.return_value = [("Trail Running Shoes","Shoes",89.99,15)]
 
@@ -47,15 +45,14 @@ def test_shop_page(client, mock_db):
     assert b"Trail Running Shoes" in response.data
     assert b"89.99" in response.data
 
-#test method for loading the login page
+#login page loads
 def test_login_page_loads(client):
     response = client.get("/login")
     assert response.status_code == 200
     assert b"Sign In" in response.data
 
-#test method for checking if login feature works
+#correct login creates a session
 def test_login_success(client, mock_db):
-    #simulate database returning a hashed password for user 'CatrionaRuns'
     hashed_pw = generate_password_hash("Running2026")
     mock_db.fetchone.return_value = (hashed_pw,)
     mock_db.fetchall.return_value = []
@@ -67,7 +64,7 @@ def test_login_success(client, mock_db):
     with client.session_transaction() as test_session:
         assert test_session["user_id"] == "CatrionaRuns"
 
-#test method to check if the app can handle an incorrect password for login
+#wrong password is refused
 def test_login_invalid_password(client, mock_db):
     hashed_pw = generate_password_hash("Running2026")
     mock_db.fetchone.return_value = (hashed_pw,)
@@ -79,7 +76,7 @@ def test_login_invalid_password(client, mock_db):
     with client.session_transaction() as test_session:
         assert "user_id" not in test_session
 
-#test method to check if the app can handle an unknown user for login
+#unknown user is refused
 def test_login_unknown_user(client, mock_db):
     mock_db.fetchone.return_value = None
 
@@ -87,7 +84,7 @@ def test_login_unknown_user(client, mock_db):
     assert response.status_code == 200
     assert b"Invalid username or password." in response.data
 
-#test method to check the log a run page cannot be used without logging in
+#log a run sends users who are not logged in to the login page
 def test_log_run_requires_login(client):
     response = client.get("/log_run",follow_redirects=True)
 
@@ -95,11 +92,10 @@ def test_log_run_requires_login(client):
     assert b"Please log in to log a run." in response.data
     assert b"Sign In" in response.data
 
-#test method for loading the log a run page when logged in
+#log a run page shows the user's runs
 def test_log_run_page(client, mock_db):
     with client.session_transaction() as test_session:
         test_session["user_id"] = "CatrionaRuns"
-    #simulate the database returning one previous run
     mock_db.fetchall.return_value = [("2026-11-01",5.0,24,"Parkrun")]
 
     response = client.get("/log_run")
@@ -107,7 +103,7 @@ def test_log_run_page(client, mock_db):
     assert b"Logged in as" in response.data
     assert b"Parkrun" in response.data
 
-#test method for saving a new run
+#a new run is saved
 def test_log_run_save(client, mock_db):
     with client.session_transaction() as test_session:
         test_session["user_id"] = "CatrionaRuns"
@@ -121,7 +117,7 @@ def test_log_run_save(client, mock_db):
     sqls = [call[0][0] for call in mock_db.execute.call_args_list]
     assert any("insert into runs" in sql for sql in sqls)
 
-#test method for logout feature
+#logout clears the session
 def test_logout(client):
     with client.session_transaction() as test_session:
         test_session["user_id"] = "CatrionaRuns"
