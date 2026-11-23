@@ -1,6 +1,4 @@
-#import Flask class from flask package
 from flask import Flask
-#import Config class from our config.py file
 from config import Config
 
 #create the app and load the settings from config.py
