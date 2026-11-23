@@ -1,3 +1,4 @@
+--main table holding the running programs
 create table if not exists programs(
 program_id varchar(10) not null primary key,
 program_name varchar(100) not null,
@@ -6,6 +7,7 @@ duration_weeks int,
 description varchar(255)
 );
 
+--users table, password is stored as a hash, each user can follow a program
 create table if not exists users(
 userid varchar(50) not null primary key,
 password varchar(200) not null,
@@ -16,6 +18,7 @@ program_id varchar(10),
 foreign key (program_id) references programs(program_id)
 );
 
+--products sold in the shop
 create table if not exists products(
 product_id varchar(10) not null primary key,
 product_name varchar(100) not null,
@@ -24,6 +27,7 @@ price float,
 stock_quantity int
 );
 
+--runs logged by each user
 create table if not exists runs(
 run_id serial primary key,
 userid varchar(50) not null,
@@ -34,6 +38,7 @@ notes varchar(255),
 foreign key (userid) references users(userid)
 );
 
+--orders link users to the products they bought
 create table if not exists orders(
 order_id varchar(10) not null primary key,
 userid varchar(50) not null,
