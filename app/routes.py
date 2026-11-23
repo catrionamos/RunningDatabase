@@ -3,7 +3,7 @@ from flask import render_template, redirect, session, flash
 #import app variable from app package
 from app import app
 #import the form classes from our forms.py file
-from app.forms import LoginForm, ProgramSearchForm
+from app.forms import LoginForm, ProgramSearchForm, LogRunForm
 #import psycopg2 to connect to database
 import psycopg2
 #import encryption to hash passwords and compare during user login
@@ -118,11 +118,62 @@ def login():
             #create a session with the username
             session['user_id'] = username
             flash("Logged in successfully!")
-            return redirect('/index')
+            return redirect('/log_run')
         else:
             flash("Invalid username or password.")
 
     return render_template('login.html', title="Sign In", form = form)
+
+#create an association for the URL /log_run
+@app.route('/log_run', methods = ['GET', 'POST'])
+
+#Feature 4 - create the log a run page so a logged in user can save a run and see their runs
+def log_run():
+    #check the user has a session, if not send them to the login page
+    if 'user_id' not in session:
+        flash("Please log in to log a run.")
+        return redirect('/login')
+
+    #create an instance of a LogRunForm obj and store in a variable called form
+    form = LogRunForm()
+
+    #create a variable to hold the username from the session
+    username = session['user_id']
+
+    #connect to the database and create a cursor obj
+    conn = db_connect()
+    cur = conn.cursor()
+
+    #receive valid data from the log_run.html
+    if form.validate_on_submit():
+        #sql code to insert the new run into the runs table
+        sql = "insert into runs(userid, run_date, distance_km, duration_minutes, notes) values('"+username+"','"+str(form.run_date.data)+"',"+str(form.distance_km.data)+","+str(form.duration_minutes.data)+",'"+form.notes.data.replace("'", "''")+"');"
+
+        #run the sql in our db and commit the changes
+        cur.execute(sql)
+        conn.commit()
+
+        #close db elements
+        cur.close()
+        conn.close()
+
+        flash("Run saved!")
+        return redirect('/log_run')
+
+    #sql code to retrieve all the runs for the logged in user, newest first
+    sql = "select run_date, distance_km, duration_minutes, notes from runs where userid ='"+username+"' order by run_date desc;"
+
+    #run the sql in our db
+    cur.execute(sql)
+
+    #retrieve the results
+    run_list = cur.fetchall()
+
+    #close db elements
+    cur.close()
+    conn.close()
+
+    return render_template('log_run.html', title='Log a Run', form = form, runs = run_list)
 
 #create an association for the URL /logout
 @app.route('/logout')
