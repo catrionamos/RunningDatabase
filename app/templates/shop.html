@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Running Gear Store</h2>
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <h3>{{ product[0] }}</h3>
+        <p>Category: {{ product[1] }}</p>
+        <p class="price">&euro;{{ "%.2f"|format(product[2]) }}</p>
+        <p>In stock: {{ product[3] }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

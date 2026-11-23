@@ -55,6 +55,30 @@ def programs():
 
     return render_template('programs.html', title='Find a Program', form = form, programs = program_list)
 
+#create an association for the URL /shop
+@app.route('/shop')
+
+#Feature 2 - create the shop page to display running gear from the products table
+def shop():
+    #connect to the database and create a cursor obj
+    conn = db_connect()
+    cur = conn.cursor()
+
+    #sql code to retrieve all the products
+    sql = "select product_name, category, price, stock_quantity from products order by category, product_name;"
+
+    #run the sql in our db
+    cur.execute(sql)
+
+    #retrieve the results
+    product_list = cur.fetchall()
+
+    #close db elements
+    cur.close()
+    conn.close()
+
+    return render_template('shop.html', title='Shop', products = product_list)
+
 #create the database connection
 def db_connect():
     return psycopg2.connect(database="running_db", user="postgres", password="Phoebe2004", host="localhost", port="5432")
