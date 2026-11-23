@@ -1,8 +1,6 @@
-#import FlaskForm class from flask_wtf package
+#import the form classes, field types and validators
 from flask_wtf import FlaskForm
-#import the field types used in our forms
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, FloatField, IntegerField, DateField
-#import validators to check the data entered
 from wtforms.validators import DataRequired, NumberRange
 
 #form for the login page
