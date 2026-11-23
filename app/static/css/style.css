@@ -1,14 +1,14 @@
 /*style*/
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f9f8;
-    color: #2f3e46;
+    background-color: #fff6fa;
+    color: #4a2c3a;
     margin: 0;
     padding: 0;
 }
 
 header {
-    background-color: #84a59d;
+    background-color: #e07aa8;
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
@@ -29,7 +29,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #ffe5ec;
+    color: #fde4ef;
 }
 
 .container {
@@ -37,12 +37,12 @@ nav a:hover {
 }
 
 h2 {
-    color: #52796f;
+    color: #b8487d;
 }
 
 /*Button*/
 .btn, input[type="submit"] {
-    background-color: #52796f;
+    background-color: #b8487d;
     color: white;
     padding: 8px 16px;
     border: none;
@@ -52,7 +52,7 @@ h2 {
 }
 
 .btn:hover, input[type="submit"]:hover {
-    background-color: #354f52;
+    background-color: #8f2f5e;
 }
 
 /*Products*/
@@ -64,7 +64,7 @@ h2 {
 
 .product-card {
     background: white;
-    border: 1px solid #ddd;
+    border: 1px solid #f3cfe0;
     border-radius: 6px;
     padding: 15px;
     width: 200px;
@@ -73,23 +73,22 @@ h2 {
 .product-card h3 {
     margin-top: 0;
     font-size: 1.1rem;
-    color: #52796f;
+    color: #b8487d;
 }
 
 .product-card .price {
     font-weight: bold;
-    color: #d67ab1;
+    color: #b8487d;
 }
 
 /*Form*/
 .form-card {
     background: white;
-    border: 1px solid #ddd;
+    border: 1px solid #f3cfe0;
     padding: 20px;
     border-radius: 6px;
     width: 300px;
 }
-
 .product-grid {
     flex-wrap: wrap;
 }
@@ -103,27 +102,27 @@ table {
 }
 
 th {
-    background-color: #84a59d;
+    background-color: #e07aa8;
     color: white;
     text-align: left;
     padding: 8px;
 }
 
 td {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #f3cfe0;
     padding: 8px;
 }
 
 tr:hover td {
-    background-color: #ffe5ec;
+    background-color: #fde4ef;
 }
 
 /*Flash messages*/
 .flash {
     list-style: none;
     padding: 10px 15px;
-    background-color: #ffe5ec;
-    border-left: 4px solid #d67ab1;
+    background-color: #fde4ef;
+    border-left: 4px solid #b8487d;
     border-radius: 4px;
 }
 
