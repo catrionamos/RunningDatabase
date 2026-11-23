@@ -1,0 +1,34 @@
+services:
+  #web container that runs the flask app
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    container_name: Web_Running
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DATABASE}
+    depends_on:
+      db:
+        condition: service_healthy
+    command: flask --app run run --host=0.0.0.0 --port=5000
+
+  #database container, init.sql creates and fills the tables the first time it starts
+  db:
+    image: postgres:16-alpine
+    container_name: runningDB
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+volumes:
+  postgres_data:

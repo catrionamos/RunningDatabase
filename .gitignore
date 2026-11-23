@@ -1,0 +1,11 @@
+#keep the database passwords off GitHub
+.env
+
+#virtual environment and python cache files
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+#old backup copy of the project
+_old_version/

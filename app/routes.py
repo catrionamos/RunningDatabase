@@ -8,6 +8,8 @@ from app.forms import LoginForm, ProgramSearchForm, LogRunForm
 import psycopg2
 #import encryption to hash passwords and compare during user login
 from werkzeug.security import check_password_hash
+#import os for connecting to db through Docker
+import os
 
 #create an association for the URL /
 @app.route('/')
@@ -186,4 +188,12 @@ def logout():
 
 #create the database connection
 def db_connect():
+    #Retrieve database_url from docker-compose if running in docker container.
+    database_url = os.environ.get("DATABASE_URL")
+
+    #If running through docker and database url is available
+    if database_url:
+        return psycopg2.connect(database_url)
+
+    #If running locally outside of Docker
     return psycopg2.connect(database="running_db", user="postgres", password="Phoebe2004", host="localhost", port="5432")
